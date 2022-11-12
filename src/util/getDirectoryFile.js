@@ -1,6 +1,6 @@
 const fs = window.require("fs");
 const path = require("path");
-const PATH = path.join(__dirname, "../../data_video");
+import { PATH } from "@/util/pathConfig";
 
 export default function () {
   let checkDir = fs.existsSync(PATH);

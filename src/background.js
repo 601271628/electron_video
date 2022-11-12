@@ -1,13 +1,6 @@
 "use strict";
 
-import {
-  app,
-  protocol,
-  BrowserWindow,
-  screen,
-  ipcMain,
-  desktopCapturer,
-} from "electron";
+import { app, screen, ipcMain, desktopCapturer, shell } from "electron";
 
 // 启动页
 import Lanhch from "./wins/launch";
@@ -23,6 +16,13 @@ import {
   MAIN_WIDTH,
   MAIN_HEIGHT,
 } from "./util/screenReactive";
+
+// 本地服务器
+import { httpServer } from "@/util/server";
+
+// 全局路径
+import { PATH } from "@/util/pathConfig";
+const path = require("path");
 
 function createWindow() {
   // 获取屏幕的分辨率（宽高）
@@ -53,19 +53,29 @@ function createWindow() {
     Mainwindow.win.on("show", () => {
       console.log("主页面:", process.env.WEBPACK_DEV_SERVER_URL + "dashboard");
       launchPage.close();
-
-      // 监听打开桌面
-      ipcMain.on("send-desktop", async (event) => {
-        console.log(1);
-        let sources = await desktopCapturer.getSources({
-          types: ["window", "screen"],
-        });
-        // 主进程发送 (scources[0]是在整个桌面)
-        event.reply("reply-desktop", sources[0]);
-      });
     });
   });
 }
+
+// 启动本地服务器（播放视频）
+httpServer();
+
+// 监听获取屏幕
+ipcMain.on("send-desktop", async (event) => {
+  console.log("监听屏幕");
+  let sources = await desktopCapturer.getSources({
+    types: ["window", "screen"],
+  });
+  // 主进程发送 (scources[0]是在整个桌面)
+  event.reply("reply-desktop", sources[0]);
+});
+
+// 监听打开文件夹
+ipcMain.on("open-dir", async (event, filename) => {
+  console.log("打开文件夹");
+  let fullPath = path.join(PATH, filename);
+  shell.showItemInFolder(fullPath);
+});
 
 app.on("ready", () => {
   createWindow();

@@ -1,7 +1,6 @@
 <template>
   <div class="header" v-drag="handlerDrag" @dblclick="scale">
     <div class="left">
-      <!-- <img src="../assets/images/logo.png" /> -->
       <div class="img"></div>
       <div>lcx</div>
     </div>
