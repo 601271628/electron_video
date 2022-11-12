@@ -5,5 +5,5 @@ export const WINDOW_HEIGHT = Math.round(1600 / 1.5);
 export const LUNCH_WIDTH = 500;
 export const LUNCH_HEIGHT = 300;
 
-export const MAIN_WIDTH = 1000;
-export const MAIN_HEIGHT = 700;
+export const MAIN_WIDTH = 1100;
+export const MAIN_HEIGHT = 650;

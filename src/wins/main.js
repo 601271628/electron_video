@@ -1,5 +1,6 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
+import { MAIN_WIDTH, MAIN_HEIGHT } from "@/util/screenReactive";
 // import path from "path";
 
 const winConfig = {
@@ -58,7 +59,7 @@ class Dashboard {
     ipcMain.on("drag", (e, pos) => {
       this.win.setPosition(pos.x, pos.y);
       // 不知道为啥
-      this.win.setSize(1000, 700);
+      this.win.setSize(MAIN_WIDTH, MAIN_HEIGHT);
     });
     // 最小
     ipcMain.on("minisize", () => {

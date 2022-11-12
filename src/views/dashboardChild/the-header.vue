@@ -23,7 +23,6 @@
 import { ref } from "vue";
 // 这里要写window.require
 const { ipcRenderer } = window.require("electron");
-// let ipcRenderer = window.ipcRenderer;
 let isMaxsize = ref(true);
 
 const handlerDrag = (pos) => {

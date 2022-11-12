@@ -6,7 +6,14 @@
         <div class="time">{{ time }}</div>
       </div>
       <div class="l_bottom">
-        <div class="table"></div>
+        <div class="table">
+          <div class="title">文件目录</div>
+          <div class="tr" v-for="(item, index) of files" :key="index">
+            <div>{{ item }}</div>
+            <div>播放</div>
+            <div>打开文件目录</div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="right">
@@ -18,8 +25,9 @@
 </template>
 
 <script setup>
-import { ref, reactive } from "vue";
+import { ref, reactive, onMounted } from "vue";
 import saveVideo from "@/util/saveVideo";
+import getDirectoryFile from "@/util/getDirectoryFile";
 const { ipcRenderer } = window.require("electron");
 
 let text = ref("录制");
@@ -27,6 +35,13 @@ let time = ref("00:00:00");
 const stream = ref(null);
 const videoBuffer = reactive([]);
 let record = ref();
+const files = reactive([]);
+
+onMounted(() => {
+  // 初始化文获取文件
+  initDirectoryFile();
+  console.log(files);
+});
 
 const getSource = () => {
   if (text.value == "结束") {
@@ -64,6 +79,7 @@ async function getScreenStream(sourceId) {
       },
     },
   });
+
   return stream;
 }
 
@@ -78,7 +94,7 @@ function preview() {
 // 录屏
 function MediaRecord() {
   record.value = new MediaRecorder(stream.value, {
-    mimeType: "video/webm;codecs=vp9",
+    mimeType: "video/webm", //;codecs=vp9"
     audioBitsPerSecond: 128000, //音频码率
     videoBitsPerSecond: 250000000, //视频码率
   });
@@ -104,7 +120,15 @@ function MediaRecord() {
       });
 
       // 保存视频文件
-      saveVideo(blob);
+      saveVideo(blob).then(
+        () => {
+          alert("保存成功");
+          initDirectoryFile();
+        },
+        (err) => {
+          console.error("保存失败", err);
+        }
+      );
     };
 
     // 出错
@@ -112,6 +136,12 @@ function MediaRecord() {
       console.error(err);
     };
   }
+}
+
+// 获取文件目录
+function initDirectoryFile() {
+  files.length = 0;
+  files.push(...getDirectoryFile());
 }
 
 // 停止
@@ -134,7 +164,7 @@ const stopRecord = () => {
   height: calc(100vh - 40px);
 }
 .left {
-  flex: 3;
+  flex: 2;
   display: flex;
   flex-direction: column;
 }
@@ -150,7 +180,6 @@ const stopRecord = () => {
   position: relative;
   flex: 7;
   width: 100%;
-  background-color: lightblue;
 }
 .btn {
   width: 100px;
@@ -167,29 +196,60 @@ const stopRecord = () => {
   color: red;
 }
 
-table {
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%, 0);
-
-  border: 1px solid black;
-}
-
 .right {
   display: flex;
   align-items: center;
-  flex: 5;
+  flex: 3;
   background-color: #cdcbcd;
 }
 
 .show {
   width: 100%;
-  /* height: 80%; */
-  /* background-color: rgb(59, 64, 64); */
 }
 
 video {
   width: 100%;
   height: 100%;
+}
+
+.title {
+  position: sticky;
+  top: 0;
+  background-color: rgb(174, 174, 174);
+  padding: 10px 0;
+  color: black;
+  font-weight: bolder;
+  text-align: center;
+}
+.table {
+  width: 90%;
+  height: 90%;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  border: 1px solid rgb(154, 150, 150);
+  overflow: auto;
+}
+
+.tr {
+  display: flex;
+  width: 90%;
+  padding: 10px 0;
+  margin: 0 10px;
+  border-bottom: 1px solid gray;
+}
+.tr div {
+  text-align: center;
+}
+.tr div:nth-child(1) {
+  width: 50%;
+  min-width: 170px;
+}
+.tr div:nth-child(2) {
+  width: 20%;
+  min-width: 60px;
+}
+.tr div:nth-child(3) {
+  min-width: 96px;
 }
 </style>
