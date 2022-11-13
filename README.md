@@ -6,3 +6,8 @@
 # vue使用ipcRenderer 必须window.require
 - const { ipcRenderer } = window.require("electron");
 
+
+
+# 白屏：首先改为路由哈希模式 然后就是加载路径的问题
+- this.win.loadURL(`file://${__dirname}/index.html/#/launchPage`);   使用files才额能获取到媒体流
+  // this.win.loadURL("app://./index.html/#/launchPage");

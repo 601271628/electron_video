@@ -91,9 +91,8 @@ const getSource = () => {
   ipcRenderer.send("start_comp_time");
   // 显示替换
   videoUrl.value = "";
-
+  // 监听屏幕 得到屏幕流
   ipcRenderer.send("send-desktop");
-
   ipcRenderer.once("reply-desktop", async (e, source) => {
     let sourceId = source.id;
 

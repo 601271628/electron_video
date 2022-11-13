@@ -63,7 +63,10 @@ function createWindow() {
     Mainwindow.show();
     // 主页面窗口打开成功 关闭启动页
     Mainwindow.win.on("show", () => {
-      console.log("主页面:", process.env.WEBPACK_DEV_SERVER_URL + "dashboard");
+      console.log(
+        "主页面:",
+        process.env.WEBPACK_DEV_SERVER_URL + "/#/dashboard"
+      );
       launchPage.close();
     });
 
@@ -74,7 +77,7 @@ function createWindow() {
     });
     ball.show();
     ball.win.on("show", () => {
-      console.log("小球:", process.env.WEBPACK_DEV_SERVER_URL + "ball");
+      console.log("小球:", process.env.WEBPACK_DEV_SERVER_URL + "/#/ball");
     });
 
     // 托盘图标
@@ -104,10 +107,10 @@ ipcMain.on("open-dir", async (event, filename) => {
 
 // 监听转发给小球计时
 ipcMain.on("start_comp_time", (event) => {
-  ball.win.webContents.send("start_comp_time");
+  ball && ball.win && ball.win.webContents.send("start_comp_time");
 });
 ipcMain.on("stop_comp_time", (event) => {
-  ball.win.webContents.send("stop_comp_time");
+  ball && ball.win && ball.win.webContents.send("stop_comp_time");
 });
 
 app.on("ready", () => {
@@ -115,15 +118,12 @@ app.on("ready", () => {
 });
 
 // mac
-// app.on("activate", () => {
-//   if (BrowserWindow.getAllWindows().length === 0) createWindow();
-// });
+app.on("activate", () => {
+  if (BrowserWindow.getAllWindows().length === 0) createWindow();
+});
 
-// app.on("window-all-closed", () => {
-//   if (process.platform !== "darwin") {
-//     app.quit();
-//   }
-// });
-// protocol.registerSchemesAsPrivileged([
-//   { scheme: "app", privileges: { secure: true, standard: true } },
-// ]);
+app.on("window-all-closed", () => {
+  if (process.platform !== "darwin") {
+    app.quit();
+  }
+});

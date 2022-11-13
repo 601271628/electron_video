@@ -14,8 +14,6 @@ const winConfig = {
     devTools: true,
     nodeIntegration: true,
     contextIsolation: false,
-    // 这是
-    // preload: path.join(__dirname, "./preload.js"),
   },
 };
 
@@ -28,11 +26,12 @@ class Dashboard {
     // 根据生产、使用环境加载  WEBPACK_DEV_SERVER\BABEL_ENV:"development"
     if (process.env.WEBPACK_DEV_SERVER_URL) {
       // 开发
-      this.win.loadURL(`${process.env.WEBPACK_DEV_SERVER_URL}dashboard`);
+      this.win.loadURL(`${process.env.WEBPACK_DEV_SERVER_URL}/#/dashboard`);
     } else {
       // 生产
-      createProtocol("app");
-      this.win.loadURL("app://./index.html/dashboard");
+      this.win.loadURL(`file://${__dirname}/index.html/#/dashboard`);
+      // createProtocol("app");
+      // this.win.loadURL("app://./index.html/#/dashboard");
     }
   }
 

@@ -6,13 +6,13 @@ const winConfig = {
   show: false,
   frame: false,
   focusable: true,
-  resizable: true,
+  resizable: false,
   skipTaskbar: true, //不显示再任务栏中
   transparent: true, //设置透明
   hasShadow: false, //不显示阴影
   alwaysOnTop: true, //窗口是否总是显示在其他窗口之前\
   webPreferences: {
-    devTools: true,
+    devTools: false,
     nodeIntegration: true,
     contextIsolation: false,
   },
@@ -27,11 +27,12 @@ class Ball {
     // 根据生产、使用环境加载  WEBPACK_DEV_SERVER\BABEL_ENV:"development"
     if (process.env.WEBPACK_DEV_SERVER_URL) {
       // 开发
-      this.win.loadURL(`${process.env.WEBPACK_DEV_SERVER_URL}ball`);
+      this.win.loadURL(`${process.env.WEBPACK_DEV_SERVER_URL}/#/ball`);
     } else {
       // 生产
-      createProtocol("app");
-      this.win.loadURL("app://./index.html/ball");
+      this.win.loadURL(`file://${__dirname}/index.html/#/ball`);
+      // createProtocol("app");
+      // this.win.loadURL("app://./index.html/#/ball");
     }
   }
 

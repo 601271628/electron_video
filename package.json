@@ -29,27 +29,5 @@
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^7.0.0",
     "vue-cli-plugin-electron-builder": "~2.1.1"
-  },
-  "build": {
-    "productName": "e小录",
-    "appId": "e_record_appid",
-    "directories": {
-      "output": "app_file"
-    },
-    "nsis": {
-      "oneClick": false,
-      "allowElevation": true,
-      "allowToChangeInstallationDirectory": true,
-      "installerIcon": "./src/assets/images/icon.png",
-      "uninstallerIcon": "./src/assets/images/icon.png",
-      "installerHeaderIcon": "./src/assets/images/icon.png",
-      "createDesktopShortcut": true,
-      "createStartMenuShortcut": true,
-      "shortcutName": "e小录"
-    },
-    "win": {
-      "target": "nsis",
-      "icon": "./src/assets/images/icon.png"
-    }
   }
 }
