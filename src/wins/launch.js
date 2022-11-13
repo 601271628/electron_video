@@ -27,7 +27,7 @@ class lanucn {
     } else {
       // 生产
       createProtocol("app");
-      this.win.loadURL(`file://${__dirname}/index.html/#/launchPage`);
+      this.win.loadURL(`file://${__dirname}/index.html/#/`);
       // this.win.loadURL("app://./index.html/#/launchPage");
     }
   }

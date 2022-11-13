@@ -2,7 +2,7 @@
   <div class="header" v-drag="handlerDrag" @dblclick="scale">
     <div class="left">
       <div class="img"></div>
-      <div>lcx</div>
+      <div>小录同学</div>
     </div>
     <div class="right">
       <div @click="minisize">

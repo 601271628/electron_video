@@ -30,7 +30,7 @@ ipcRenderer.on("start_comp_time", () => {
   }, 1000);
 });
 // 结束计时
-ipcRenderer.once("stop_comp_time", () => {
+ipcRenderer.on("stop_comp_time", () => {
   timeCount.value = 0;
   clearInterval(timer);
 });

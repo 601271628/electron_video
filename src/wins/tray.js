@@ -1,12 +1,25 @@
-const { Menu, Tray, app } = require("electron");
+const { Menu, Tray, app, nativeImage } = require("electron");
 const path = require("path");
 
 export default function (Mainwindow) {
   const iconSrc = path.join(__dirname, "../src/assets/images/icon.png");
-  let tray = new Tray(iconSrc);
+
+  const ningImage = nativeImage.createFromPath(iconSrc);
+  let tray = new Tray(ningImage);
+
   const contextMenu = Menu.buildFromTemplate([
-    { label: "Item2", type: "radio" },
-    { label: "Item3", type: "radio", checked: true },
+    {
+      label: "打开主窗口",
+      click: () => {
+        if (Mainwindow.win.isMinimized()) Mainwindow.win.show();
+      },
+    },
+    {
+      label: "最小化",
+      click: () => {
+        if (Mainwindow.win.isVisible()) Mainwindow.win.minimize();
+      },
+    },
     {
       label: "退出",
       click: () => {
@@ -16,7 +29,7 @@ export default function (Mainwindow) {
   ]);
 
   // 提示
-  tray.setToolTip("e小录");
+  tray.setToolTip("小录同学");
 
   // 右键菜单
   tray.setContextMenu(contextMenu);

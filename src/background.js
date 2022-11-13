@@ -44,32 +44,32 @@ function createWindow() {
   launchPage.win.on("show", () => {
     console.log("启动页:", process.env.WEBPACK_DEV_SERVER_URL);
 
-    setTimeout(() => {
-      // 主页面窗口
-      Mainwindow = new Main({
-        width: MAIN_WIDTH,
-        height: MAIN_HEIGHT,
-      });
-      Mainwindow.show();
-      // 主页面窗口打开成功 关闭启动页
-      Mainwindow.win.on("show", () => {
-        console.log(
-          "主页面:",
-          process.env.WEBPACK_DEV_SERVER_URL + "/#/dashboard"
-        );
-        launchPage.close();
-      });
+    // 主页面窗口
+    Mainwindow = new Main({
+      width: MAIN_WIDTH,
+      height: MAIN_HEIGHT,
+    });
+    // setTimeout(() => {
+    Mainwindow.show();
+    // 主页面窗口打开成功 关闭启动页
+    Mainwindow.win.on("show", () => {
+      console.log(
+        "主页面:",
+        process.env.WEBPACK_DEV_SERVER_URL + "/#/dashboard"
+      );
+      launchPage.close();
+    });
 
-      // 悬浮小球
-      ball = new Ball({
-        width: BALL_WIDTH,
-        height: BALL_HEIGHT,
-      });
-      ball.show();
-      ball.win.on("show", () => {
-        console.log("小球:", process.env.WEBPACK_DEV_SERVER_URL + "/#/ball");
-      });
-    }, 1500);
+    // 悬浮小球
+    ball = new Ball({
+      width: BALL_WIDTH,
+      height: BALL_HEIGHT,
+    });
+    ball.show();
+    ball.win.on("show", () => {
+      console.log("小球:", process.env.WEBPACK_DEV_SERVER_URL + "/#/ball");
+    });
+    // }, 1500);
 
     // 托盘图标
     setTray(Mainwindow);
@@ -112,6 +112,12 @@ ipcMain.on("mainWindow-show", (event) => {
 app.on("ready", () => {
   createWindow();
 });
+
+// 不可多开
+const gotTheLock = app.requestSingleInstanceLock();
+if (!gotTheLock) {
+  app.quit();
+}
 
 // mac
 app.on("activate", () => {
