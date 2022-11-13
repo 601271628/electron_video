@@ -48,9 +48,9 @@ onBeforeUnmount(() => {
   justify-content: center;
   align-items: center;
   color: #fff;
-  width: 100%;
-  height: 100%;
-  font-size: 80%;
+  width: 70px;
+  height: 70px;
+  font-size: 15px;
   border-radius: 50%;
   background-color: rgb(112, 193, 224);
   border: 1px solid #fff;

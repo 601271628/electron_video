@@ -1,7 +1,9 @@
 // 设计稿的大小
+// import { screen } from "electron";
+// let rect = screen.getPrimaryDisplay().bounds;
+// export const WINDOW_WIDTH = rect.width;
+// export const WINDOW_HEIGHT = rect.height;
 
-export const WINDOW_WIDTH = Math.round(2560 / 1.5);
-export const WINDOW_HEIGHT = Math.round(1600 / 1.5);
 export const LUNCH_WIDTH = 500;
 export const LUNCH_HEIGHT = 300;
 

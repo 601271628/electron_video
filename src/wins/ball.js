@@ -1,6 +1,6 @@
-import { app, BrowserWindow, ipcMain } from "electron";
+import { BrowserWindow, ipcMain, screen } from "electron";
 import { createProtocol } from "vue-cli-plugin-electron-builder/lib";
-import { WINDOW_WIDTH, BALL_WIDTH, BALL_HEIGHT } from "@/util/screenReactive";
+import { BALL_WIDTH, BALL_HEIGHT } from "@/util/screenReactive";
 
 const winConfig = {
   show: false,
@@ -39,7 +39,8 @@ class Ball {
   //  打开
   show() {
     this.win.once("ready-to-show", () => {
-      this.win.setPosition(WINDOW_WIDTH - BALL_WIDTH - 100, 0);
+      let WINDOW_WIDTH = screen.getPrimaryDisplay().bounds.width;
+      this.win.setPosition(WINDOW_WIDTH - BALL_WIDTH - 100, 100);
       this.win.show();
       // 监听
       this.listenIpc();

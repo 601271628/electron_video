@@ -1,6 +1,6 @@
 "use strict";
 
-import { app, screen, ipcMain, desktopCapturer, shell } from "electron";
+import { app, ipcMain, desktopCapturer, shell } from "electron";
 
 // 启动页
 import Lanhch from "@/wins/launch";
@@ -11,8 +11,6 @@ import Ball from "@/wins/ball";
 
 // 设计稿的大小
 import {
-  WINDOW_WIDTH,
-  WINDOW_HEIGHT,
   LUNCH_WIDTH,
   LUNCH_HEIGHT,
   MAIN_WIDTH,
@@ -35,19 +33,10 @@ let Mainwindow = null;
 let ball = null;
 
 function createWindow() {
-  // 获取屏幕的分辨率（宽高）
-  let rect = screen.getPrimaryDisplay().bounds;
-  let l_width = (rect.width * LUNCH_WIDTH) / WINDOW_WIDTH;
-  let l_height = (rect.height * LUNCH_HEIGHT) / WINDOW_HEIGHT;
-  let m_width = (rect.width * MAIN_WIDTH) / WINDOW_WIDTH;
-  let m_height = (rect.height * MAIN_HEIGHT) / WINDOW_HEIGHT;
-  let b_width = (rect.width * BALL_WIDTH) / WINDOW_WIDTH;
-  let b_height = (rect.height * BALL_HEIGHT) / WINDOW_HEIGHT;
-
   // 启动窗口
   const launchPage = new Lanhch({
-    width: l_width,
-    height: l_height,
+    width: LUNCH_WIDTH,
+    height: LUNCH_HEIGHT,
   });
   launchPage.show();
 
@@ -55,30 +44,32 @@ function createWindow() {
   launchPage.win.on("show", () => {
     console.log("启动页:", process.env.WEBPACK_DEV_SERVER_URL);
 
-    // 主页面窗口
-    Mainwindow = new Main({
-      width: m_width,
-      height: m_height,
-    });
-    Mainwindow.show();
-    // 主页面窗口打开成功 关闭启动页
-    Mainwindow.win.on("show", () => {
-      console.log(
-        "主页面:",
-        process.env.WEBPACK_DEV_SERVER_URL + "/#/dashboard"
-      );
-      launchPage.close();
-    });
+    setTimeout(() => {
+      // 主页面窗口
+      Mainwindow = new Main({
+        width: MAIN_WIDTH,
+        height: MAIN_HEIGHT,
+      });
+      Mainwindow.show();
+      // 主页面窗口打开成功 关闭启动页
+      Mainwindow.win.on("show", () => {
+        console.log(
+          "主页面:",
+          process.env.WEBPACK_DEV_SERVER_URL + "/#/dashboard"
+        );
+        launchPage.close();
+      });
 
-    // 悬浮小球
-    ball = new Ball({
-      width: b_width,
-      height: b_height,
-    });
-    ball.show();
-    ball.win.on("show", () => {
-      console.log("小球:", process.env.WEBPACK_DEV_SERVER_URL + "/#/ball");
-    });
+      // 悬浮小球
+      ball = new Ball({
+        width: BALL_WIDTH,
+        height: BALL_HEIGHT,
+      });
+      ball.show();
+      ball.win.on("show", () => {
+        console.log("小球:", process.env.WEBPACK_DEV_SERVER_URL + "/#/ball");
+      });
+    }, 1500);
 
     // 托盘图标
     setTray(Mainwindow);

@@ -1,10 +1,11 @@
 <template>
   <div class="launch">
-    <h1>启动中...</h1>
+    <h1 class="animate__animated animate__bounce">启动中...</h1>
   </div>
 </template>
 
 <script>
+import "animate.css";
 export default {
   name: "launch",
 };

@@ -6,8 +6,8 @@
         <div class="time">{{ time }}</div>
       </div>
       <div class="l_bottom">
+        <div class="title">文件目录</div>
         <div class="table">
-          <div class="title">文件目录</div>
           <div class="tr" v-for="(item, index) of files" :key="index">
             <div>{{ item }}</div>
             <div @click="handlerPlay(item)" class="play">播放</div>
@@ -260,8 +260,11 @@ video {
 }
 
 .title {
-  position: sticky;
-  top: 0;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 90%;
+  height: 40px;
   background-color: rgb(174, 174, 174);
   padding: 10px 0;
   color: black;
@@ -269,6 +272,7 @@ video {
   text-align: center;
 }
 .table {
+  margin-top: 40px;
   width: 90%;
   height: 90%;
   position: absolute;
