@@ -10,7 +10,14 @@
         <div class="table">
           <div class="tr" v-for="(item, index) of files" :key="index">
             <div>{{ item }}</div>
-            <div @click="handlerPlay(item)" class="play">播放</div>
+            <div
+              @click="handlerPlay(item)"
+              class="play"
+              :class="{ disabled: !isAble }"
+              :title="playTip"
+            >
+              播放
+            </div>
             <div @click="handlerOpendir(item)" class="openDir">
               打开文件目录
             </div>
@@ -41,6 +48,8 @@ let record = ref();
 const files = reactive([]);
 let timer = null;
 let videoUrl = ref("");
+let isAble = ref(true);
+let playTip = ref("");
 
 // 初始化文获取文件
 onMounted(() => {
@@ -49,8 +58,10 @@ onMounted(() => {
 
 // 点击播放
 const handlerPlay = (filename) => {
-  // 设置视频显示路径
-  videoUrl.value = `http://localhost:3006/${filename}`;
+  if (isAble.value) {
+    // 设置视频显示路径
+    videoUrl.value = `http://localhost:3006/${filename}`;
+  }
 };
 
 // 打开目录
@@ -72,6 +83,8 @@ const time = computed(() => {
 // 开始录制
 const getSource = () => {
   if (text.value == "结束") {
+    isAble.value = true;
+    playTip.value = "";
     text.value = "录制";
     // 时间
     timeCount.value = 0;
@@ -83,6 +96,8 @@ const getSource = () => {
   }
 
   text.value = "结束";
+  isAble.value = false;
+  playTip.value = "请先停止录制";
   // 计时
   timer = setInterval(() => {
     timeCount.value++;
@@ -306,5 +321,9 @@ video {
 .play,
 .openDir {
   cursor: pointer;
+}
+
+.disabled {
+  color: gray;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="ball" v-drag="handlerDrag">
+  <div class="ball" v-drag="handlerDrag" @dblclick="mainWindowShow">
     <span class="text">
       {{ time }}
     </span>
@@ -23,7 +23,8 @@ const time = computed(() => {
 let timer = null;
 
 // 开始计时
-ipcRenderer.once("start_comp_time", () => {
+ipcRenderer.on("start_comp_time", () => {
+  timer && clearInterval(timer);
   timer = setInterval(() => {
     timeCount.value++;
   }, 1000);
@@ -36,6 +37,10 @@ ipcRenderer.once("stop_comp_time", () => {
 // 拖拽
 const handlerDrag = (pos) => {
   ipcRenderer.send("drag-ball", pos);
+};
+
+const mainWindowShow = () => {
+  ipcRenderer.send("mainWindow-show");
 };
 
 onBeforeUnmount(() => {

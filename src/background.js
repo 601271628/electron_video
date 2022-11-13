@@ -98,10 +98,15 @@ ipcMain.on("open-dir", async (event, filename) => {
 
 // 监听转发给小球计时
 ipcMain.on("start_comp_time", (event) => {
-  ball && ball.win && ball.win.webContents.send("start_comp_time");
+  ball.win.webContents.send("start_comp_time");
 });
 ipcMain.on("stop_comp_time", (event) => {
-  ball && ball.win && ball.win.webContents.send("stop_comp_time");
+  ball.win.webContents.send("stop_comp_time");
+});
+
+// 双击小球显示
+ipcMain.on("mainWindow-show", (event) => {
+  if (Mainwindow.win.isMinimized()) Mainwindow.win.show();
 });
 
 app.on("ready", () => {
