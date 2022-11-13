@@ -8,7 +8,11 @@ export default function (app) {
 
       node.addEventListener("mousedown", (e) => {
         let classAttr = e.target.attributes.class;
-        if (!classAttr || classAttr.nodeValue !== "header") {
+        // 不是小球或者头部不移动
+        if (
+          !classAttr ||
+          (classAttr.nodeValue !== "header" && classAttr.nodeValue !== "ball")
+        ) {
           return;
         }
 

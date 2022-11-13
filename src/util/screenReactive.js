@@ -7,3 +7,6 @@ export const LUNCH_HEIGHT = 300;
 
 export const MAIN_WIDTH = 1100;
 export const MAIN_HEIGHT = 650;
+
+export const BALL_WIDTH = 70;
+export const BALL_HEIGHT = 70;

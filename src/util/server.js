@@ -11,7 +11,6 @@ export const httpServer = () => {
       console.log(vedioPath);
       fs.readFile(vedioPath, (err, result) => {
         if (err) {
-          req.writeHeader({});
           return res.end(
             JSON.stringify({
               status: 404,

@@ -37,7 +37,6 @@ const { ipcRenderer } = window.require("electron");
 let text = ref("录制");
 const timeCount = ref(0);
 const stream = ref(null);
-const videoBuffer = reactive([]);
 let record = ref();
 const files = reactive([]);
 let timer = null;
@@ -77,14 +76,19 @@ const getSource = () => {
     // 时间
     timeCount.value = 0;
     clearInterval(timer);
+    // 悬浮小球结束计时
+    ipcRenderer.send("stop_comp_time");
     // 停止
     return stopRecord();
   }
+
   text.value = "结束";
   // 计时
   timer = setInterval(() => {
     timeCount.value++;
   }, 1000);
+  // 悬浮小球计时
+  ipcRenderer.send("start_comp_time");
   // 显示替换
   videoUrl.value = "";
 
@@ -131,12 +135,14 @@ function preview() {
 // 录屏
 function MediaRecord() {
   record.value = new MediaRecorder(stream.value, {
-    mimeType: "video/webm", //;codecs=vp9"
+    //webm类型一定要加codecs=vp8,opus，否则会导致录制时候时而可以用时而不能用
+    mimeType: "video/webm;codecs=vp8,opus",
     audioBitsPerSecond: 128000, //音频码率
     videoBitsPerSecond: 250000000, //视频码率
   });
 
   if (record.value) {
+    let videoBuffer = [];
     // 开始
     record.value.start(1000);
 
@@ -157,7 +163,7 @@ function MediaRecord() {
       // 保存视频文件
       saveVideo(blob).then(
         () => {
-          alert("保存成功");
+          alert(`成功保存`);
           initDirectoryFile();
         },
         (err) => {
@@ -230,6 +236,8 @@ onBeforeUnmount(() => {
   line-height: 100px;
   margin-bottom: 10px;
   color: white;
+  border: none;
+  font-size: 20px;
 }
 .time {
   font-size: 20px;
