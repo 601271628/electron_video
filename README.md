@@ -1,14 +1,15 @@
 
-### vue3 + js + electron@21.2.1
+### 环境
+- vue3 + js + electron@21.2.1
+- 打包工具 vue add electron-builder
 
-### 打包工具 vue add electron-builder
+### 问题1 
+- vue内部使用ipcRenderer 必须为window.require
 
-### vue内部使用ipcRenderer 必须window.require
-- const { ipcRenderer } = window.require("electron");
-
-### 白屏：首先改为路由哈希模式 然后就是加载路径的问题
+### 问题2 白屏
+- 首先改为路由哈希模式 
+- 然后就是加载路径的问题
 - this.win.loadURL(`file://${__dirname}/index.html/#/launchPage`);   使用files才额能获取到媒体流
-  // this.win.loadURL("app://./index.html/#/launchPage");
 
 ### tray显示：
 - 生产环境：打包__dirname指向app.asar/.... 使用app.asar替换
