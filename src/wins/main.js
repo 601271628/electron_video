@@ -29,8 +29,8 @@ class Dashboard {
       this.win.loadURL(`${process.env.WEBPACK_DEV_SERVER_URL}/#/dashboard`);
     } else {
       // 生产
+      createProtocol("app");
       this.win.loadURL(`file://${__dirname}/index.html/#/dashboard`);
-      // createProtocol("app");
       // this.win.loadURL("app://./index.html/#/dashboard");
     }
   }

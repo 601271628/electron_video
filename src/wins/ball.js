@@ -30,8 +30,8 @@ class Ball {
       this.win.loadURL(`${process.env.WEBPACK_DEV_SERVER_URL}/#/ball`);
     } else {
       // 生产
+      createProtocol("app");
       this.win.loadURL(`file://${__dirname}/index.html/#/ball`);
-      // createProtocol("app");
       // this.win.loadURL("app://./index.html/#/ball");
     }
   }

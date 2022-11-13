@@ -26,8 +26,8 @@ class lanucn {
       this.win.loadURL(`${process.env.WEBPACK_DEV_SERVER_URL}`);
     } else {
       // 生产
+      createProtocol("app");
       this.win.loadURL(`file://${__dirname}/index.html/#/launchPage`);
-      // createProtocol("app");
       // this.win.loadURL("app://./index.html/#/launchPage");
     }
   }
